@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <title>Сварочный шов — игра ко Дню вахтовика</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="hud">
+        <h1>Сварочный шов</h1>
+        <p class="subtitle">Игра ко Дню вахтовика</p>
+
+        <div class="stats-grid">
+          <article class="stat-card">
+            <span class="label">Качество</span>
+            <strong id="qualityValue">100%</strong>
+          </article>
+          <article class="stat-card">
+            <span class="label">Прогресс</span>
+            <strong id="progressValue">0%</strong>
+          </article>
+          <article class="stat-card">
+            <span class="label">Время</span>
+            <strong id="timeValue">45с</strong>
+          </article>
+          <article class="stat-card">
+            <span class="label">Рекорд</span>
+            <strong id="bestValue">0%</strong>
+          </article>
+        </div>
+
+        <div class="quality-wrap" aria-hidden="true">
+          <div id="qualityBar" class="quality-bar"></div>
+        </div>
+
+        <label class="difficulty-wrap" for="difficultySelect">
+          Сложность:
+          <select id="difficultySelect">
+            <option value="easy">Легко</option>
+            <option value="normal" selected>Нормально</option>
+            <option value="hard">Сложно</option>
+          </select>
+        </label>
+
+        <p id="message" class="message">Нажмите «Старт» и ведите горелку по линии как можно ровнее.</p>
+
+        <div class="controls">
+          <button id="startBtn" class="btn primary">Старт</button>
+          <button id="restartBtn" class="btn ghost" disabled>Новая попытка</button>
+        </div>
+      </section>
+
+      <section class="game-card">
+        <canvas id="weldCanvas" width="1100" height="560" aria-label="Игровое поле сварочного шва"></canvas>
+        <div class="overlay" id="overlay">
+          <h2>Как играть</h2>
+          <p>Зажмите палец или кнопку мыши и ведите сварочную горелку по светящейся линии.</p>
+          <p>Чем ровнее шов, тем выше качество и итоговая оценка.</p>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
