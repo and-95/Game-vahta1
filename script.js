@@ -11,6 +11,7 @@ const startBtn = document.getElementById('startBtn');
 const restartBtn = document.getElementById('restartBtn');
 const difficultySelect = document.getElementById('difficultySelect');
 const overlay = document.getElementById('overlay');
+const orientationHint = document.getElementById('orientationHint');
 
 const BASE_WIDTH = 1100;
 const BASE_HEIGHT = 560;
@@ -133,8 +134,27 @@ function getCanvasPoint(clientX, clientY) {
   };
 }
 
-function handlePointer(clientX, clientY) {
-  const { x, y } = getCanvasPoint(clientX, clientY);
+function getAdjustedPoint(event) {
+  const point = getCanvasPoint(event.clientX, event.clientY);
+
+  if (event.pointerType !== 'touch') return point;
+
+  const touchOffsetX = BASE_WIDTH * 0.075;
+  const touchOffsetY = BASE_HEIGHT * 0.14;
+
+  return {
+    x: clamp(point.x - touchOffsetX, 0, BASE_WIDTH),
+    y: clamp(point.y - touchOffsetY, 0, BASE_HEIGHT)
+  };
+}
+
+function updateOrientationHint() {
+  const isPortraitMobile = window.matchMedia('(max-width: 940px) and (orientation: portrait)').matches;
+  orientationHint.classList.toggle('show', isPortraitMobile);
+}
+
+function handlePointer(event) {
+  const { x, y } = getAdjustedPoint(event);
 
   if (!gameState.running || !gameState.pointerDown) return;
 
@@ -306,12 +326,12 @@ canvas.addEventListener('pointerdown', (event) => {
   event.preventDefault();
   canvas.setPointerCapture(event.pointerId);
   gameState.pointerDown = true;
-  handlePointer(event.clientX, event.clientY);
+  handlePointer(event);
 });
 
 canvas.addEventListener('pointermove', (event) => {
   event.preventDefault();
-  handlePointer(event.clientX, event.clientY);
+  handlePointer(event);
 });
 
 canvas.addEventListener('pointerup', (event) => {
@@ -329,6 +349,9 @@ difficultySelect.addEventListener('change', () => {
 
 startBtn.addEventListener('click', startGame);
 restartBtn.addEventListener('click', startGame);
+window.addEventListener('resize', updateOrientationHint);
+window.addEventListener('orientationchange', updateOrientationHint);
 
 setDifficulty('normal');
+updateOrientationHint();
 requestAnimationFrame(tick);

@@ -149,6 +149,22 @@ select {
   position: relative;
 }
 
+.orientation-hint {
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: 1rem;
+  z-index: 3;
+  border-radius: 12px;
+  border: 1px solid rgba(251, 191, 36, 0.45);
+  background: rgba(15, 23, 42, 0.86);
+  color: #fde68a;
+  font-size: 0.9rem;
+  padding: 0.65rem 0.8rem;
+  text-align: center;
+  display: none;
+}
+
 canvas {
   width: 100%;
   height: min(70svh, 560px);
@@ -200,6 +216,23 @@ canvas {
 
   canvas {
     height: min(56svh, 460px);
+  }
+}
+
+@media (max-width: 940px) and (orientation: portrait) {
+  .orientation-hint.show {
+    display: block;
+  }
+}
+
+@media (max-width: 940px) and (orientation: landscape) {
+  .app {
+    grid-template-columns: minmax(260px, 320px) 1fr;
+    align-items: start;
+  }
+
+  canvas {
+    height: min(78svh, 500px);
   }
 }
 
